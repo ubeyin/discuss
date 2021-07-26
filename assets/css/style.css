@@ -7,6 +7,8 @@ body {
     width: 100%;
     height: 60px;
     background: #fff;
+    position: fixed;
+    z-index: 1001;
 }
 
 .navbar img {
@@ -30,6 +32,37 @@ body {
     margin-right: 10px;
 }
 
+.aside1 {
+    position: fixed;
+    top: 70px;
+    right: 25px;
+    width: 350px;
+    background-color: #fff;
+    box-shadow: 0 0 8px rgba(0,0,0,0.2);
+    border-radius: 0.3rem;
+    animation: asides 0.1s linear;
+    transition: 0.2s ease-in-out;
+    z-index: 1000;
+}
+
+@keyframes asides {
+    from {
+        transform: scale(0.9);
+    }
+}
+
+.aside1 div {
+    margin: 25px;
+}
+.aside1 div button {
+    padding: 4px 10px;
+    margin-top: 15px;
+}
+.aside1 div p {
+    margin-top: 9px;
+    margin-bottom: 1px;
+}
+
 .headbar {
     width: 100%;
     height: auto;
@@ -38,6 +71,7 @@ body {
     background-size: auto 100%;
     background-repeat: repeat-x;
     padding: 20px;
+    padding-top: 80px;
 }
 
 .headbar div {
@@ -112,17 +146,10 @@ body {
     margin-left: 5px;
 }
 
-.main .form article .info {
-    font-size: 14px;
-    color: #333;
-    margin-top: 15px;
-    background-color: transparent;
-}
-
-.main .form article .info div {
-    display: inline-block;
-    min-width: 60px;
-    margin-right: 15px;
+.main .form article b {
+    font-size: 11px;
+    margin-bottom: 5px;
+    font-weight: 100;
 }
 
 .main h2 {

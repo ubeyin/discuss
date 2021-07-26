@@ -5,6 +5,7 @@
     var searchBtn = document.getElementById("search-btn");
 
     searchBtn.onclick = function () {
+        document.getElementById("h").style.display = "block";
         document.getElementById("main").innerHTML = "";
         searchQuery(searchBox.value);
     }
@@ -12,11 +13,43 @@
 })(window ? window : this);
 
 function searchQuery(val) {
-     XMLHttpRequests("https://ubeyin.000webhostapp.com/discuss/search.php?q="+val, function (data) {
-         document.getElementById("main").innerHTML += data;
-     }, function () {
-         
-     })
+    XMLHttpRequests("https://ubeyin.000webhostapp.com/discuss/search.php?q=" + val, function (data) {
+        document.getElementById("main").innerHTML += data;
+    }, function () {
+
+    })
+}
+
+function gologin() {
+    document.getElementsByClassName("login")[0].style.display = "block";
+    document.getElementsByClassName("signup")[0].style.display = "none";
+}
+
+function gosignup() {
+    document.getElementsByClassName("login")[0].style.display = "none";
+    document.getElementsByClassName("signup")[0].style.display = "block";
+}
+
+function joins() {
+    if (getCookie("logged") == null || getCookie("logged") != 1) {
+        if (document.getElementById("join-form").style.display == "none") {
+            document.getElementById("join-form").style.display = "block";
+            setTimeout(() => {
+                document.getElementsByClassName("login")[0].style.display = "block";
+                document.getElementsByClassName("signup")[0].style.display = "none";
+                document.getElementsByClassName("loading")[0].style.display = "none";
+            }, 2000);
+        } else if (document.getElementById("join-form").style.display == "block") {
+            document.getElementById("join-form").style.display = "none";
+            document.getElementsByClassName("login")[0].style.display = "none";
+            document.getElementsByClassName("signup")[0].style.display = "none";
+            document.getElementsByClassName("loading")[0].style.display = "block";
+        }
+        document.getElementById("join-tool").style.display = "none";
+    } else {
+        document.getElementById("join-form").style.display = "none";
+        document.getElementById("join-tool").style.display = "block";
+    }
 }
 
 function setCookie(cname, cvalue, exdays) {

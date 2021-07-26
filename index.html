@@ -14,10 +14,33 @@
     <nav class="navbar">
         <img src="assets/image/ubeyin.png" alt="&nbsp;&nbsp;Ubeyin" title="Discuss: Ubeyin">
         <li>
-            <button>Join</button>
-            <button>Help</button>
+            <button onclick="joins()" title="Join for discover new">Join</button>
+            <button title="Instant help">Help</button>
         </li>
     </nav>
+    <aside class="aside1" id="join-form" style="display: none;">
+        <div class="login" style="display: none;">
+            <h2>Login</h2>
+            <p>Email</p>
+            <input type="email" id="login-email" placeholder="Email address">
+            <p>Password</p>
+            <input type="password" id="login-pass" placeholder="Password">
+            <button onclick="gosignup()" title="Don't have any account">Don't have?</button>
+            <button class="bg success" title="Login to your account">Login</button>
+        </div>
+        <div class="signup" style="display: none;">
+            <h2>Signup</h2>
+            <p>Username</p>
+            <input type="text" id="signup-name" placeholder="Username">
+            <p>Email</p>
+            <input type="email" id="signup-email" placeholder="Email address">
+            <p>Password</p>
+            <input type="password" id="signup-pass" placeholder="Password">
+            <button onclick="gologin()" title="Already have an account?">Already?</button>
+            <button class="bg success" title="Signup to new account">Signup</button>
+        </div>
+        <div class="loading">Loading...</div>
+    </aside>
     <header class="headbar row-x">
         <div class="col-5">
             <h1>Discuss</h1>
@@ -31,17 +54,14 @@
         </div>
     </header>
     <main class="main">
-        <h2>Results</h2>
+        <h2 id="h" style="display: none;">Results</h2>
         <div class="form">
            <!--<article class="col-5">
+               <b>Unknown</b>
                 <h3>How to make a flower?</h3>
                 <div class="tag">
                     <span>flower</span>
                     <span>how to</span>
-                </div>
-                <div class="info">
-                    <div><i data-slize="eye"></i> 2k</div>
-                    <div><i data-slize="message-square"></i> 10</div>
                 </div>
             </article>-->
             <div id="main" class="row"></div>

@@ -2,7 +2,6 @@
     include "config.php";
     
     $data_string = mysqli_real_escape_string($server, htmlspecialchars($_REQUEST['q']));
-    $data_email = mysqli_real_escape_string($server, $_REQUEST['q']);
   
     $search_from_discuss = mysqli_query($server, "SELECT * FROM discuss
     WHERE (`title` LIKE '%".$data_string."%') OR (`tag` LIKE '%".$data_string."%')"); 
@@ -11,8 +10,8 @@
     if ($search_from_discuss && mysqli_num_rows($search_from_discuss) > 0) {
       # code...
       while($results = mysqli_fetch_assoc($search_from_discuss)){
-    
         echo '<article class="col-5">
+            <b>'.$results["username"].'</b>
             <h3>'.$results["title"].'</h3>
             <div class="tag">
             '.$results['tag'].'
