@@ -5,6 +5,7 @@
     var searchBtn = document.getElementById("search-btn");
 
     searchBtn.onclick = function () {
+        document.getElementById("main").innerHTML = "";
         searchQuery(searchBox.value);
     }
 
@@ -12,9 +13,9 @@
 
 function searchQuery(val) {
      XMLHttpRequests("https://ubeyin.000webhostapp.com/discuss/search.php?q="+val, function (data) {
-         alert(data);
+         document.getElementById("main").innerHTML += data;
      }, function () {
-         alert("Error")
+         
      })
 }
 
