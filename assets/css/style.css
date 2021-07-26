@@ -1,0 +1,73 @@
+.navbar {
+    width: 100%;
+    height: 60px;
+    background: #fff;
+}
+
+.navbar img {
+    width: 150px;
+    height: 100%;
+    font-size: 25px;
+    line-height: 50px;
+    font-weight: 900;
+    float: left;
+}
+
+.navbar li {
+    list-style: none;
+    float: right;
+    padding: 7px 15px;
+}
+
+.navbar li button {
+    padding: 3px 15px;
+    background-color: #9769b3;
+    margin-right: 10px;
+}
+
+.headbar {
+    width: 100%;
+    height: auto;
+    background-color: #e8dcef;
+    background-image: url(../image/banner.png);
+    background-size: auto 100%;
+    background-repeat: repeat-x;
+    padding: 20px;
+}
+
+.headbar div {
+    text-align: center;
+    padding: 20px;
+    margin: 20px;
+}
+
+.headbar div input {
+    width: 300px;
+    margin-left: 50%;
+    transform: translate(-50%);
+}
+
+@media screen and (max-width: 576px) {
+    .headbar div {
+        margin-left: 50%;
+        transform: translate(-50%);
+    }
+}
+
+.headbar div button[type=submit] {
+    width: 300px;
+    display: block;
+    padding: 6px 10px;
+    margin-left: 50%;
+    transform: translate(-50%);
+}
+
+.headbar div .form {
+    width: 300px;
+    height: 300px;
+    background-color: #fff;
+    border-radius: 0.3rem;
+    margin-top: -15px;
+    margin-left: 50%;
+    transform: translate(-50%);
+}
