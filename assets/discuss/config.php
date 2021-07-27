@@ -9,38 +9,39 @@
    if (!$server) {
      $error = mysqli_connect_error();
      echo ('ERROR');
-   } else {
-     
+   }
+
+   error_reporting(0);
+
+   /* Create table if table does not exist */
+
+   if(empty(mysqli_query($server, "SELECT * FROM users"))) {
+        $table_of_user = "CREATE TABLE `users`(
+          `id` INT(255) NOT NULL AUTO_INCREMENT,
+          `username` VARCHAR(255) NOT NULL,
+          `email` VARCHAR(255) NOT NULL,
+          `verified` TINYINT(1) NOT NULL DEFAULT '0',
+          `password` VARCHAR(255) NOT NULL,
+          PRIMARY KEY(`id`)
+         ) ENGINE = InnoDB"; 
+      
+         mysqli_query($server, $table_of_user);
    }
 
    /* Create table if table does not exist */
-   $table_of_user = "CREATE TABLE `user` (
-     `id` int(8) NOT NULL AUTO_INCREMENT,
-     `username` varchar(20) NOT NULL DEFAULT 'Unknown',
-     `email` varchar(100) NOT NULL,
-     `verified` tinyint(1) NOT NULL DEFAULT '0',
-     `password` varchar(100) NOT NULL,
-      PRIMARY KEY (`id`)
-   ) ENGINE=InnoDB";
 
-   if (mysqli_query($server, $table_of_user)) {
-     # code...
-   } else {
-     # code...
+   if(empty(mysqli_query($server, "SELECT * FROM discuss"))) {
+     $table_of_discuss = "CREATE TABLE `discuss`(
+      `id` INT(255) NOT NULL AUTO_INCREMENT,
+      `username` VARCHAR(255) NOT NULL,
+      `email` VARCHAR(255) NOT NULL,
+      `title` VARCHAR(255) NOT NULL,
+      `answer` VARCHAR(999) NOT NULL,
+      `tag` VARCHAR(255) NOT NULL,
+      `verified` TINYINT(1) NOT NULL DEFAULT '0', 
+      PRIMARY KEY(`id`)
+     ) ENGINE = InnoDB";
+  
+    mysqli_query($server, $table_of_discuss);
    }
-   /* */
-   $table_of_discuss = "CREATE TABLE `discuss` (
-    `username` varchar(100) NOT NULL  DEFAULT 'Unknown',
-    `email` varchar(100) NOT NULL,
-    `title` varchar(255) NOT NULL,
-    `answer` varchar(255) NOT NULL  DEFAULT 'No answer',
-    `tag` varchar(20) NOT NULL  DEFAULT 'No tag',
-    `date` varchar(20) NOT NULL,
-  ) ENGINE=InnoDB";
-
-  if (mysqli_query($server, $table_of_discuss)) {
-    # code...
-  } else {
-    # code...
-  }
 ?>

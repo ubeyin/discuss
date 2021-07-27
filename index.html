@@ -56,7 +56,7 @@
         <p>Question</p>
         <input type="text" placeholder="Enter your question" id="queTitle">
         <p>Tags</p>
-        <form action="##" onsubmit="addQueTag()">
+        <form onsubmit="addQueTag(); return false;">
             <input type="text" placeholder="Enter maximum 3 tags" id="queTag" maxlength="10" required>
         </form>
         <div id="viewTag"></div>
@@ -69,8 +69,10 @@
             <h1>Discuss</h1>
             <p>Find your question in bangla<br> or english language quickly</p>
             <br>
-            <input type="search" placeholder="Search from discuss" id="search">
-            <button type="submit" id="search-btn">Search</button>
+            <form onsubmit='searchFunction(document.getElementById("search").value); return false;'>
+                <input type="search" placeholder="Search from discuss" id="search" maxlength="50" required>
+                <button type="submit" id="search-btn">Search</button>
+            </form>
         </div>
         <div class="col-5">
             <div class="form"></div>

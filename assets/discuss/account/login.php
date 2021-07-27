@@ -4,15 +4,16 @@
     $login_email = mysqli_real_escape_string($server, $_REQUEST['email']); 
     $login_password = mysqli_real_escape_string($server, $_REQUEST['password']); 
   
-    $login_in_user = "select * from users where email = '" . $login_email; 
+    $login_in_user = "SELECT * FROM users WHERE email = '" . $login_email; 
     $login_in_user .= "' AND password = '" . $login_password . "'"; 
-
-    if (mysqli_query($server, $login_in_user) && mysqli_num_rows(mysqli_query($server, $login_in_user)) > 0) {
-      # code...
+    if (mysqli_num_rows(mysqli_query($server, "SELECT * FROM users WHERE email = '".$login_email)) > 0) {
+      if (mysqli_query($server, $login_in_user) && mysqli_num_rows(mysqli_query($server, $login_in_user)) > 0) {
       echo "SUCCESS";
     } else {
-      # code...
       echo "FAILED";
+    }
+    } else {
+    echo "UNAVAILABLE";
     }
 
     mysqli_close($server);

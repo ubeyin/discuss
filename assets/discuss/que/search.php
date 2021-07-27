@@ -4,7 +4,7 @@
     $data_string = mysqli_real_escape_string($server, htmlspecialchars($_REQUEST['q']));
   
     $search_from_discuss = mysqli_query($server, "SELECT * FROM discuss
-    WHERE (`title` LIKE '%".$data_string."%') OR (`tag` LIKE '%".$data_string."%')"); 
+    WHERE `verified` = '1' AND (`title` LIKE '%".$data_string."%') OR (`tag` LIKE '%".$data_string."%')"); 
     ini_set('memory_limit', '1G');
 
     if ($search_from_discuss && mysqli_num_rows($search_from_discuss) > 0) {

@@ -8,9 +8,7 @@ var indx = 0;
     var searchBtn = document.getElementById("search-btn");
 
     searchBtn.onclick = function () {
-        document.getElementById("h").style.display = "block";
-        document.getElementById("main").innerHTML = "";
-        searchQuery(searchBox.value);
+        searchFunction(searchBox.value);
     }
 
     if (getCookie("logged") == null || getCookie("logged") != 1) {
@@ -25,10 +23,28 @@ var indx = 0;
 
 function searchQuery(val) {
     XMLHttpRequests("https://ubeyin.000webhostapp.com/discuss/que/search.php?q=" + val, function (data) {
-        document.getElementById("main").innerHTML += data;
+        if (data != "FAILED" && data != "ERROR") {
+            document.getElementById("main").innerHTML = data;
+            document.getElementById("search-btn").disabled = false;
+            document.getElementById("search").disabled = false;
+        } else {
+            document.getElementById("main").innerHTML = "<article class='col-5'><h3>No results found.</h3></article>";
+            document.getElementById("search-btn").disabled = false;
+            document.getElementById("search").disabled = false;
+        }
     }, function () {
 
     })
+}
+
+function searchFunction(x) {
+    if (x != "") {
+        document.getElementById("h").style.display = "block";
+        document.getElementById("main").innerHTML = "";
+        document.getElementById("search-btn").disabled = true;
+        document.getElementById("search").disabled = true;
+        searchQuery(x);
+    }
 }
 
 function gologin() {
@@ -49,7 +65,7 @@ function login() {
         if (txt == "SUCCESS") {
 
             XMLHttpRequests("https://ubeyin.000webhostapp.com/discuss/account/data.php?" + url, function (txt) {
-                if (txt !== "FAILED") {
+                if (txt != "FAILED" && txt != "ERROR") {
                     var data = JSON.parse(txt);
                     account = data;
                     setCookie("email", data["email"], 1000000000);
@@ -57,14 +73,16 @@ function login() {
                     setCookie("logged", 1, 1000000000);
                     home();
                 } else {
-                    alert("Failed to load data, please try again!");
+                    displayAlert("Failed to load data, please try again!");
                 }
             });
 
         } else if (txt == "FAILED") {
-            alert("Failed to login, email/password are invalid!");
+            displayAlert("Failed to login, email/password are invalid!");
         } else if (txt == "ERROR") {
-            alert("Failed to login, server not connected!");
+            displayAlert("Failed to login, server not connected!");
+        } else if (txt == "UNAVAILABLE") {
+            displayAlert("Failed to login, the user does not exist!")
         }
     }, function () {
         /* "Failed to signup, try again!" */
@@ -78,7 +96,7 @@ function signup() {
         if (txt == "SUCCESS") {
 
             XMLHttpRequests("https://ubeyin.000webhostapp.com/discuss/account/data.php?" + url, function (txt) {
-                if (txt !== "FAILED") {
+                if (txt != "FAILED" && txt != "ERROR") {
                     var data = JSON.parse(txt);
                     account = data;
                     setCookie("email", data["email"], 1000000000);
@@ -86,16 +104,18 @@ function signup() {
                     setCookie("logged", 1, 1000000000);
                     home();
                 } else {
-                    alert("Failed to load data, please try again!");
+                    displayAlert("Failed to load data, please try again!");
                 }
             });
 
         } else if (txt == "FAILED") {
-            alert("Failed to signup, an unknown error occured!");
+            displayAlert("Failed to signup, an unknown error occured!");
         } else if (txt == "AVAILABLE") {
-            alert("Failed to signup, current email is available!");
+            displayAlert("Failed to signup, current email is available!");
         } else if (txt == "ERROR") {
-            alert("Failed to signup, server not connected!");
+            displayAlert("Failed to signup, server not connected!");
+        } else {
+            displayAlert("Failed to signup, " + txt);
         }
     }, function () {
         /* "Failed to signup, try again!" */
@@ -135,6 +155,11 @@ function joins() {
             document.getElementById("lay").style.display = "none";
         }
     }
+}
+
+
+function displayAlert(params) {
+    alert(params);
 }
 
 
@@ -209,6 +234,7 @@ function XMLHttpRequests(urls, success, error) {
         }
     }
     xhr.send(0);
+    console.log(xhr)
 }
 
 function accountData() {
@@ -224,14 +250,16 @@ function addQue(title, tag, success, error) {
         for (let index = 0; index < tag.length; index++) {
             tags += "<span>" + tag[index] + "</span>  ";
         }
-        console.log("https://ubeyin.000webhostapp.com/discuss/que/insert.php?title=" + title + "&tags=" + tags + "&email=" + getCookie("email") + "&username=" + getCookie("username") + "&date=" + new Date().getFullYear()+"");
+        console.log("https://ubeyin.000webhostapp.com/discuss/que/insert.php?title=" + title + "&tags=" + tags + "&email=" + getCookie("email") + "&username=" + getCookie("username") + "&date=" + new Date().getFullYear() + "");
 
         XMLHttpRequests("https://ubeyin.000webhostapp.com/discuss/que/insert.php?title=" + title + "&tags=" + tags + "&email=" + getCookie("email") + "&username=" + getCookie("username") + "&date=" + new Date().toLocaleString(), function (data) {
             if (data == "SUCCESS" && success) {
                 return success();
             }
             else if (data == "ERROR" || data == "FAILED" && error) {
-                return error();
+                return error(data);
+            } else {
+                return error(data);
             }
         });
     }
@@ -245,10 +273,10 @@ function addQuestion() {
 
 function sendQuestion() {
     addQue(document.getElementById("queTitle").value, tagg, function () {
-        alert("Added!");
+        displayAlert("Your question has been successfully added to request que.");
         cancelQue();
-    }, function () {
-        alert("Failed!");
+    }, function (data) {
+        displayAlert("Failed! " + data);
     })
 }
 
