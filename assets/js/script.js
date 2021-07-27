@@ -1,4 +1,6 @@
-var account = false;
+var account;
+var tagg = [];
+var indx = 0;
 
 (function (window) {
     var resultBox = document.getElementById("main");
@@ -11,10 +13,18 @@ var account = false;
         searchQuery(searchBox.value);
     }
 
+    if (getCookie("logged") == null || getCookie("logged") != 1) {
+        document.getElementById("joins").innerHTML = "Join";
+    } else {
+        document.getElementById("joins").innerHTML = "Menu";
+        accountData();
+
+    }
+
 })(window ? window : this);
 
 function searchQuery(val) {
-    XMLHttpRequests("https://ubeyin.000webhostapp.com/discuss/search.php?q=" + val, function (data) {
+    XMLHttpRequests("https://ubeyin.000webhostapp.com/discuss/que/search.php?q=" + val, function (data) {
         document.getElementById("main").innerHTML += data;
     }, function () {
 
@@ -35,10 +45,10 @@ function login() {
 
     var url = "email=" + encodeURIComponent(document.getElementById("login-email").value) + "&password=" + encodeURIComponent(document.getElementById("login-pass").value);
 
-    XMLHttpRequests("https://ubeyin.000webhostapp.com/login.php?" + url, function (txt) {
+    XMLHttpRequests("https://ubeyin.000webhostapp.com/discuss/account/login.php?" + url, function (txt) {
         if (txt == "SUCCESS") {
 
-            XMLHttpRequests("https://ubeyin.000webhostapp.com/data.php?" + url, function (txt) {
+            XMLHttpRequests("https://ubeyin.000webhostapp.com/discuss/account/data.php?" + url, function (txt) {
                 if (txt !== "FAILED") {
                     var data = JSON.parse(txt);
                     account = data;
@@ -64,10 +74,10 @@ function login() {
 function signup() {
     var url = "name=" + encodeURIComponent(document.getElementById("signup-name").value) + "&email=" + encodeURIComponent(document.getElementById("signup-email").value) + "&password=" + encodeURIComponent(document.getElementById("signup-pass").value);
 
-    XMLHttpRequests("https://ubeyin.000webhostapp.com/signup.php?" + url, function (txt) {
+    XMLHttpRequests("https://ubeyin.000webhostapp.com/discuss/account/signup.php?" + url, function (txt) {
         if (txt == "SUCCESS") {
 
-            XMLHttpRequests("https://ubeyin.000webhostapp.com/data.php?" + url, function (txt) {
+            XMLHttpRequests("https://ubeyin.000webhostapp.com/discuss/account/data.php?" + url, function (txt) {
                 if (txt !== "FAILED") {
                     var data = JSON.parse(txt);
                     account = data;
@@ -94,14 +104,20 @@ function signup() {
 
 function joins() {
     if (getCookie("logged") == null || getCookie("logged") != 1) {
+        document.getElementById("joins").innerHTML = "Join";
         if (document.getElementById("join-form").style.display == "none") {
             document.getElementById("join-form").style.display = "block";
+            document.getElementById("lay").style.display = "block";
+            document.getElementById("joins").disabled = true;
             setTimeout(() => {
+                document.getElementById("joins").disabled = false;
                 document.getElementsByClassName("login")[0].style.display = "block";
                 document.getElementsByClassName("signup")[0].style.display = "none";
                 document.getElementsByClassName("loading")[0].style.display = "none";
+
             }, 2000);
         } else if (document.getElementById("join-form").style.display == "block") {
+            document.getElementById("lay").style.display = "none";
             document.getElementById("join-form").style.display = "none";
             document.getElementsByClassName("login")[0].style.display = "none";
             document.getElementsByClassName("signup")[0].style.display = "none";
@@ -109,14 +125,18 @@ function joins() {
         }
         document.getElementById("join-tool").style.display = "none";
     } else {
-
+        accountData();
+        document.getElementById("joins").innerHTML = "Menu";
         if (document.getElementById("join-tool").style.display == "none") {
             home();
+            document.getElementById("lay").style.display = "block";
         } else if (document.getElementById("join-tool").style.display == "block") {
             document.getElementById("join-tool").style.display = "none";
+            document.getElementById("lay").style.display = "none";
         }
     }
 }
+
 
 function home() {
     document.getElementById("join-form").style.display = "block";
@@ -124,13 +144,16 @@ function home() {
     document.getElementsByClassName("login")[0].style.display = "none";
     document.getElementsByClassName("signup")[0].style.display = "none";
     document.getElementsByClassName("loading")[0].style.display = "block";
+    document.getElementById("joins").disabled = true;
     setTimeout(() => {
+        document.getElementById("joins").disabled = false;
         document.getElementById("join-form").style.display = "none";
         document.getElementsByClassName("login")[0].style.display = "block";
         document.getElementsByClassName("signup")[0].style.display = "none";
         document.getElementsByClassName("loading")[0].style.display = "none";
         document.getElementById("join-tool").style.display = "block";
     }, 2000);
+    accountData();
 }
 
 function setCookie(cname, cvalue, exdays) {
@@ -186,4 +209,64 @@ function XMLHttpRequests(urls, success, error) {
         }
     }
     xhr.send(0);
+}
+
+function accountData() {
+    if (getCookie("email") && getCookie("username")) {
+        document.getElementById("acc-name").innerHTML = getCookie("username");
+        document.getElementById("acc-email").innerHTML = getCookie("email");
+    }
+}
+
+function addQue(title, tag, success, error) {
+    if (getCookie("logged") == 1) {
+        var tags = "";
+        for (let index = 0; index < tag.length; index++) {
+            tags += "<span>" + tag[index] + "</span>  ";
+        }
+        console.log("https://ubeyin.000webhostapp.com/discuss/que/insert.php?title=" + title + "&tags=" + tags + "&email=" + getCookie("email") + "&username=" + getCookie("username") + "&date=" + new Date().getFullYear()+"");
+
+        XMLHttpRequests("https://ubeyin.000webhostapp.com/discuss/que/insert.php?title=" + title + "&tags=" + tags + "&email=" + getCookie("email") + "&username=" + getCookie("username") + "&date=" + new Date().toLocaleString(), function (data) {
+            if (data == "SUCCESS" && success) {
+                return success();
+            }
+            else if (data == "ERROR" || data == "FAILED" && error) {
+                return error();
+            }
+        });
+    }
+}
+
+function addQuestion() {
+    document.getElementById("lay").style.display = "block";
+    document.getElementById("join-tool").style.display = "none";
+    document.getElementById("newque").style.display = "block";
+}
+
+function sendQuestion() {
+    addQue(document.getElementById("queTitle").value, tagg, function () {
+        alert("Added!");
+        cancelQue();
+    }, function () {
+        alert("Failed!");
+    })
+}
+
+function addQueTag() {
+    if (indx <= 2 && document.getElementById("queTag").value.trim() != "") {
+        indx++;
+        document.getElementById("viewTag").innerHTML += "<span>" + document.getElementById("queTag").value + "</span>  ";
+        tagg = [...tagg, document.getElementById("queTag").value.trim()];
+        document.getElementById("queTag").value = "";
+    }
+}
+
+function cancelQue() {
+    document.getElementById('newque').style.display = 'none';
+    document.getElementById('lay').style.display = 'none';
+    document.getElementById('queTitle').value = '';
+    document.getElementById('queTag').value = '';
+    document.getElementById('viewTag').innerHTML = '';
+    indx = 0;
+    tagg = [];
 }

@@ -14,10 +14,11 @@
     <nav class="navbar">
         <img src="assets/image/ubeyin.png" alt="&nbsp;&nbsp;Ubeyin" title="Discuss: Ubeyin">
         <li>
-            <button onclick="joins()" title="Join for discover new">Join</button>
+            <button onclick="joins()" title="Join for discover new" id="joins">Join</button>
             <button title="Instant help">Help</button>
         </li>
     </nav>
+    <div id="lay" style="display: none;"></div>
     <aside class="aside1" id="join-form" style="display: none;">
         <div class="login" style="display: none;">
             <h2>Login</h2>
@@ -42,8 +43,27 @@
         <div class="loading">Loading...</div>
     </aside>
     <aside class="aside2" id="join-tool" style="display: none;">
-        Welcome
+        <h2 id="acc-name"></h2>
+        <p><i data-slize="mail"></i>&nbsp;&nbsp;<span id="acc-email">loading...</span></p>
+
+        <li class="list">
+            <div onclick="addQuestion()">Create a question</div>
+            <div>Account settings</div>
+        </li>
     </aside>
+    <section id="newque" style="display: none;">
+        <h2>Add question</h2>
+        <p>Question</p>
+        <input type="text" placeholder="Enter your question" id="queTitle">
+        <p>Tags</p>
+        <form action="##" onsubmit="addQueTag()">
+            <input type="text" placeholder="Enter maximum 3 tags" id="queTag" maxlength="10" required>
+        </form>
+        <div id="viewTag"></div>
+        <br>
+        <button class="bg success" onclick="sendQuestion()">Send</button>
+        <button class="bg danger" onclick="cancelQue()">Cancel</button>
+    </section>
     <header class="headbar row-x">
         <div class="col-5">
             <h1>Discuss</h1>
@@ -59,7 +79,7 @@
     <main class="main">
         <h2 id="h" style="display: none;">Results</h2>
         <div class="form">
-           <!--<article class="col-5">
+            <!--<article class="col-5">
                <b>Unknown</b>
                 <h3>How to make a flower?</h3>
                 <div class="tag">
@@ -71,7 +91,9 @@
         </div>
     </main>
     <footer class="footer">
-        <p>Copyright &copy;<script>document.write(new Date().getFullYear())</script> by Ubeyin, Trs</p>
+        <p>Copyright &copy;
+            <script>document.write(new Date().getFullYear())</script> by Ubeyin, Trs
+        </p>
     </footer>
 
     <script src="assets/js/slize.icon.js"></script>
