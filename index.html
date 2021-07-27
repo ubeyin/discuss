@@ -26,7 +26,7 @@
             <p>Password</p>
             <input type="password" id="login-pass" placeholder="Password">
             <button onclick="gosignup()" title="Don't have any account">Don't have?</button>
-            <button class="bg success" title="Login to your account">Login</button>
+            <button class="bg success" title="Login to your account" onclick="login()">Login</button>
         </div>
         <div class="signup" style="display: none;">
             <h2>Signup</h2>
@@ -37,9 +37,12 @@
             <p>Password</p>
             <input type="password" id="signup-pass" placeholder="Password">
             <button onclick="gologin()" title="Already have an account?">Already?</button>
-            <button class="bg success" title="Signup to new account">Signup</button>
+            <button class="bg success" title="Signup to new account" onclick="signup()">Signup</button>
         </div>
         <div class="loading">Loading...</div>
+    </aside>
+    <aside class="aside2" id="join-tool" style="display: none;">
+        Welcome
     </aside>
     <header class="headbar row-x">
         <div class="col-5">
@@ -68,7 +71,7 @@
         </div>
     </main>
     <footer class="footer">
-        <p>Copyright &copy;<script>document.write(new Date().getFullYear())</script> by Ubeyin, LLC</p>
+        <p>Copyright &copy;<script>document.write(new Date().getFullYear())</script> by Ubeyin, Trs</p>
     </footer>
 
     <script src="assets/js/slize.icon.js"></script>

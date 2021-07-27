@@ -1,3 +1,4 @@
+var account = false;
 
 (function (window) {
     var resultBox = document.getElementById("main");
@@ -30,6 +31,67 @@ function gosignup() {
     document.getElementsByClassName("signup")[0].style.display = "block";
 }
 
+function login() {
+
+    var url = "email=" + encodeURIComponent(document.getElementById("login-email").value) + "&password=" + encodeURIComponent(document.getElementById("login-pass").value);
+
+    XMLHttpRequests("https://ubeyin.000webhostapp.com/login.php?" + url, function (txt) {
+        if (txt == "SUCCESS") {
+
+            XMLHttpRequests("https://ubeyin.000webhostapp.com/data.php?" + url, function (txt) {
+                if (txt !== "FAILED") {
+                    var data = JSON.parse(txt);
+                    account = data;
+                    setCookie("email", data["email"], 1000000000);
+                    setCookie("username", data["username"], 1000000000);
+                    setCookie("logged", 1, 1000000000);
+                    home();
+                } else {
+                    alert("Failed to load data, please try again!");
+                }
+            });
+
+        } else if (txt == "FAILED") {
+            alert("Failed to login, email/password are invalid!");
+        } else if (txt == "ERROR") {
+            alert("Failed to login, server not connected!");
+        }
+    }, function () {
+        /* "Failed to signup, try again!" */
+    });
+}
+
+function signup() {
+    var url = "name=" + encodeURIComponent(document.getElementById("signup-name").value) + "&email=" + encodeURIComponent(document.getElementById("signup-email").value) + "&password=" + encodeURIComponent(document.getElementById("signup-pass").value);
+
+    XMLHttpRequests("https://ubeyin.000webhostapp.com/signup.php?" + url, function (txt) {
+        if (txt == "SUCCESS") {
+
+            XMLHttpRequests("https://ubeyin.000webhostapp.com/data.php?" + url, function (txt) {
+                if (txt !== "FAILED") {
+                    var data = JSON.parse(txt);
+                    account = data;
+                    setCookie("email", data["email"], 1000000000);
+                    setCookie("username", data["username"], 1000000000);
+                    setCookie("logged", 1, 1000000000);
+                    home();
+                } else {
+                    alert("Failed to load data, please try again!");
+                }
+            });
+
+        } else if (txt == "FAILED") {
+            alert("Failed to signup, an unknown error occured!");
+        } else if (txt == "AVAILABLE") {
+            alert("Failed to signup, current email is available!");
+        } else if (txt == "ERROR") {
+            alert("Failed to signup, server not connected!");
+        }
+    }, function () {
+        /* "Failed to signup, try again!" */
+    });
+}
+
 function joins() {
     if (getCookie("logged") == null || getCookie("logged") != 1) {
         if (document.getElementById("join-form").style.display == "none") {
@@ -47,9 +109,28 @@ function joins() {
         }
         document.getElementById("join-tool").style.display = "none";
     } else {
-        document.getElementById("join-form").style.display = "none";
-        document.getElementById("join-tool").style.display = "block";
+
+        if (document.getElementById("join-tool").style.display == "none") {
+            home();
+        } else if (document.getElementById("join-tool").style.display == "block") {
+            document.getElementById("join-tool").style.display = "none";
+        }
     }
+}
+
+function home() {
+    document.getElementById("join-form").style.display = "block";
+    document.getElementById("join-tool").style.display = "none";
+    document.getElementsByClassName("login")[0].style.display = "none";
+    document.getElementsByClassName("signup")[0].style.display = "none";
+    document.getElementsByClassName("loading")[0].style.display = "block";
+    setTimeout(() => {
+        document.getElementById("join-form").style.display = "none";
+        document.getElementsByClassName("login")[0].style.display = "block";
+        document.getElementsByClassName("signup")[0].style.display = "none";
+        document.getElementsByClassName("loading")[0].style.display = "none";
+        document.getElementById("join-tool").style.display = "block";
+    }, 2000);
 }
 
 function setCookie(cname, cvalue, exdays) {
@@ -105,5 +186,4 @@ function XMLHttpRequests(urls, success, error) {
         }
     }
     xhr.send(0);
-    console.log(xhr)
 }

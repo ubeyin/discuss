@@ -32,7 +32,7 @@ body {
     margin-right: 10px;
 }
 
-.aside1 {
+.aside1,.aside2 {
     position: fixed;
     top: 70px;
     right: 25px;
