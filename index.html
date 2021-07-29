@@ -30,8 +30,8 @@
     </nav>
     <!-- #Home -->
     <main class="home" id="home">
-        <header class="headbar row-x" id="headbar">
-            <div class="banner col-5" id="banner">
+        <header class="headbar" id="headbar">
+            <div class="banner" id="banner">
                 <h1 class="title" id="title">Discuss</h1>
                 <p class="text" id="text">Find your question in bangla<br> or english language quickly</p>
                 <br>
@@ -41,22 +41,24 @@
                     <button type="submit" class="submit" id="submit">Search now</button>
                 </form>
             </div>
-            <div class="tops col-5" id="tops">
-                <div class="box" id="box"></div>
-            </div>
         </header>
-        <section class="section">
+        <section class="section container">
             <h2 class="title" id="title" style="display: nonne;">Results</h2>
             <div class="main" id="main">
                 <div class="result row" id="result"></div>
             </div>
         </section>
     </main>
-    <!-- #Inquiry -->
-    <main class="inquiry" id="inquiry" style="display: none;">
-        
+    <!-- #question -->
+    <main class="question container" id="question" style="display: none;">
+        <h2 class="title" id="title">My Question&nbsp;</h2>
+        <section class="sections row" id="sections">
+
+        </section>
     </main>
-    <div class="ninquiry" id="ninquiry"><i data-slize="plus" data-slize-setting='fill:#fff;  stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"'></i></div>
+    <div class="nquestion" id="nquestion"><i data-slize="plus"
+            data-slize-setting='fill:#fff;  stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"'></i>
+    </div>
     <!-- #Footer -->
     <footer class="footer" id="footer">
         <p class="text" id="text">Copyright &copy;
@@ -66,12 +68,12 @@
     <!-- #Popup -->
     <div class="popup" id="popup" style="display: none;"></div>
     <aside class="menu" id="menu" style="display: none;">
-        <h2  class="title" id="title"></h2>
-        <p><i data-slize="mail"></i>&nbsp;&nbsp;<span  class="text" id="text">loading...</span></p>
+        <h2 class="title" id="title"></h2>
+        <p><i data-slize="mail"></i>&nbsp;&nbsp;<span class="text" id="text">loading...</span></p>
         <li class="list">
             <div class="active">My Home</div>
-            <div onclick="viewQuestion()">My inquiry</div>
-            <div>Account settings</div>
+            <div onclick="viewQuestion()">My Question</div>
+            <div>Account Settings</div>
             <div onclick="logout()">Log Out</div>
         </li>
     </aside>
@@ -82,8 +84,10 @@
             <input type="email" id="login-email" placeholder="Email address">
             <p>Password</p>
             <input type="password" id="login-pass" placeholder="Password">
-            <button onclick="gosignup()" title="Don't have any account">Don't have?</button>
-            <button class="submit bg success" id="submit" title="Login to your account" onclick="login()">Login</button>
+            <button onclick='document.getElementsByClassName("login")[0].style.display = "none";
+            document.getElementsByClassName("signup")[0].style.display = "block";' title="Don't have any account">Don't
+                have?</button>
+            <button class="submit bg success" id="submit" title="Login to your account">Login</button>
         </div>
         <div class="signup" id="signup" style="display: none;">
             <h2 class="title" id="title">Signup</h2>
@@ -93,13 +97,15 @@
             <input type="email" id="signup-email" placeholder="Email address">
             <p>Password</p>
             <input type="password" id="signup-pass" placeholder="Password">
-            <button onclick="gologin()" title="Already have an account?">Already?</button>
+            <button onclick='document.getElementsByClassName("login")[0].style.display = "block";
+            document.getElementsByClassName("signup")[0].style.display = "none";'
+                title="Already have an account?">Already?</button>
             <button class="submit bg success" id="submit" title="Signup to new account">Signup</button>
         </div>
-        <div class="loading"  id="loading">Loading...</div>
+        <div class="loading" id="loading">Loading...</div>
     </aside>
-    <section class="ainquiry" id="ainquiry" style="display: none;">
-        <h2 class="title" id="title">Add Inquiry</h2>
+    <section class="aquestion" id="aquestion" style="display: none;">
+        <h2 class="title" id="title">Add Question</h2>
         <p>Question</p>
         <input type="text" placeholder="Enter your question" id="queTitle">
         <p>Tags</p>
@@ -117,8 +123,8 @@
         <span onclick="this.parentNode.style.display='none'">Close</span>
     </section>
 
-  <script src="src/script.js"></script>
-  <script src="src/slize/icon.js"></script>
+    <script src="src/script.js"></script>
+    <script src="src/slize/icon.js"></script>
 </body>
 
 </html>

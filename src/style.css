@@ -1,3 +1,9 @@
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
 /* Global */
 button:disabled {
     opacity: 0.5;
@@ -5,11 +11,11 @@ button:disabled {
 
 /* Navigation bar */
 .navbar {
-    width: 100%;
+    width: 100vw;
     height: 60px;
     background: #fff;
     position: fixed;
-    top: 0; left: 0;
+    top: 0; left: 0;right: 0;
     z-index: 1001;
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.22);
 }
@@ -38,6 +44,7 @@ button:disabled {
 /* Home section */
 .home {
     width: 100%;
+    height: 100%;
 }
 
 .home .headbar {
@@ -48,13 +55,16 @@ button:disabled {
     background-size: auto 40%;
     background-repeat: repeat;
     padding: 20px;
-    padding-top: 100px;
+    padding-top: 80px;
 }
 
 .home .headbar .banner {
+    width: 80%;
     text-align: center;
     padding: 20px;
     margin: 20px;
+    margin-left: 50%;
+    transform: translate(-50%);
 }
 
 .home .headbar .banner .search .input {
@@ -64,14 +74,15 @@ button:disabled {
 }
 
 .home .headbar .banner .search .submit {
-    width: 300px;
+    width: 300px !important;
+    max-width: 300px;
     display: block;
     padding: 6px 10px;
     margin-left: 50%;
     transform: translate(-50%);
 }
 
-.home .headbar .tops .box {
+.box {
     width: 300px;
     height: 300px;
     background-color: #fff;
@@ -79,13 +90,7 @@ button:disabled {
     margin-top: -15px;
     margin-left: 50%;
     transform: translate(-50%);
-}
-
-@media screen and (max-width: 576px) {
-    .home .headbar .banner {
-        margin-left: 50%;
-        transform: translate(-50%);
-    }
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.0622);
 }
 
 .home .section:nth-child(1) {
@@ -139,8 +144,78 @@ button:disabled {
     font-weight: 100;
 }
 
-/* Inquiry */
-.ninquiry {
+/* Question */
+.question {
+    width: 100%;
+    min-height: 95vh;
+    padding-top: 80px;
+}
+
+.question .title {
+    padding: 6px;
+    padding-left: 25px;
+    padding-bottom: 0;
+}
+
+.question .sections {
+    padding: 10px;
+}
+
+.question .sections article {
+    max-width: 380px;
+    background-color: #fff;
+    border-radius: 0.3rem;
+    margin: 7px 25px;
+    margin-right: 0;
+    border: 0.1px solid rgba(146, 93, 177, 0.2);
+    padding: 20px;
+    padding-bottom: 15px;
+    padding-top: 8px;
+    text-align: left;
+    background-color: #e8dcef;
+    background-image: url(../image/banner.png);
+    background-size: auto 100%;
+    background-repeat: repeat-x;
+}
+
+.question .sections article h3 {
+    font-size: 16px;
+    color: #333;
+}
+
+.question .sections article .tag span {
+    font-size: 14px;
+    color: #333;
+    background-color: rgba(146, 93, 177, 0.192);
+    padding: 3px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 10rem;
+    margin-left: 5px;
+}
+
+.question .sections article .tag span:first-child {
+    margin-left: 0;
+}
+
+.question .sections article b {
+    font-size: 11px;
+    margin-bottom: 5px;
+    font-weight: 100;
+}
+
+.question .sections article .delete {
+    font-weight: 900;
+    float: right;
+    padding: 5px;
+    user-select: none;
+}
+
+.question .sections article .delete:hover {
+    color: crimson;
+}
+
+.nquestion {
     position: fixed;
     bottom: 40px;
     right: 30px;
@@ -150,11 +225,11 @@ button:disabled {
     box-shadow: 0 0 6px rgba(0, 0, 0, 0.053);
 }
 
-.ninquiry:active {
+.nquestion:active {
     transform: scale(0.9);
 }
 
-.ninquiry:hover {
+.nquestion:hover {
     opacity: 0.7;
 }
 
@@ -182,7 +257,7 @@ button:disabled {
     border-radius: 0.3rem;
     animation: asides 0.1s linear;
     transition: 0.2s ease-in-out;
-    z-index: 1000;
+    z-index: 2000;
 }
 
 .menu {
@@ -212,6 +287,7 @@ button:disabled {
 .menu li.list {
     list-style: none;
     user-select: none;
+    font-size: 14px;
 }
 
 .menu li.list div {
@@ -225,7 +301,7 @@ button:disabled {
 }
 
 
-.ainquiry {
+.aquestion {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -240,11 +316,11 @@ button:disabled {
     padding: 20px;
 }
 
-.ainquiry #viewTag {
+.aquestion #viewTag {
     margin-top: 10px;
 }
 
-.ainquiry #viewTag span {
+.aquestion #viewTag span {
     font-size: 14px;
     color: #333;
     background-color: rgba(146, 93, 177, 0.192);
@@ -255,11 +331,11 @@ button:disabled {
     margin-left: 5px;
 }
 
-.ainquiry button {
+.aquestion button {
     padding: 4px 10px;
 }
 
-.ainquiry p {
+.aquestion p {
     margin-top: 9px;
     margin-bottom: 1px;
 }
@@ -306,10 +382,7 @@ button:disabled {
     height: 100%;
     padding: 29px;
     padding-bottom: 12px;
-    background-color: #5518b8;
-    background-image: url(../src/image/banner.png);
-    background-size: auto 100%;
-    background-repeat: repeat-x;
+    background-color: #7123bb;
     text-align: center;
     color: #fff;
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.22);

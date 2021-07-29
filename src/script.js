@@ -1,4 +1,3 @@
-(function (window) {
     var account;
     var tagg = [];
     var indx = 0;
@@ -8,10 +7,10 @@
         /* Check logged in */
         if (getCookie("logged") == null || getCookie("logged") != 1) {
             document.querySelectorAll(".navbar .list .option")[0].innerHTML = "Join";
-            document.querySelectorAll(".ninquiry")[0].style.display = "none";
+            document.querySelectorAll(".nquestion")[0].style.display = "none";
         } else {
             document.querySelectorAll(".navbar .list .option")[0].innerHTML = "Menu";
-            document.querySelectorAll(".ninquiry")[0].style.display = "block";
+            document.querySelectorAll(".nquestion")[0].style.display = "block";
             accountData();
         }
 
@@ -78,14 +77,14 @@
             document.getElementsByClassName("signup")[0].style.display = "none";
             document.getElementsByClassName("loading")[0].style.display = "none";
             document.querySelectorAll(".menu")[0].style.display = "block";
-        }, 2000);
+        }, 500);
         accountData();
         if (getCookie("logged") == null || getCookie("logged") != 1) {
             document.querySelectorAll(".navbar .list .option")[0].innerHTML = "Join";
-            document.querySelectorAll(".ninquiry")[0].style.display = "none";
+            document.querySelectorAll(".nquestion")[0].style.display = "none";
         } else {
             document.querySelectorAll(".navbar .list .option")[0].innerHTML = "Menu";
-            document.querySelectorAll(".ninquiry")[0].style.display = "block";
+            document.querySelectorAll(".nquestion")[0].style.display = "block";
             accountData();
         }
     }
@@ -98,42 +97,56 @@
     /* Switch menu */
     document.querySelectorAll(".menu .list div")[0].onclick = function () {
         document.querySelectorAll(".home")[0].style.display = "block";
-        document.querySelectorAll(".inquiry")[0].style.display = "none";
+        document.querySelectorAll(".question")[0].style.display = "none";
         document.querySelectorAll(".menu .list div")[0].className = "active";
         document.querySelectorAll(".menu .list div")[1].className = "";
         document.querySelectorAll(".menu .list div")[2].className = "";
+        document.querySelectorAll(".popup")[0].style.display = "none";
+        document.querySelectorAll(".menu")[0].style.display = "none";
+        document.querySelectorAll(".navbar .list .option")[0].innerHTML = "Menu";
         if (getCookie("logged") == 1) {
-            document.querySelectorAll(".ninquiry")[0].style.display = "block";
+            document.querySelectorAll(".nquestion")[0].style.display = "block";
         }
     }
     document.querySelectorAll(".menu .list div")[1].onclick = function () {
         document.querySelectorAll(".home")[0].style.display = "none";
-        document.querySelectorAll(".inquiry")[0].style.display = "block";
+        document.querySelectorAll(".question")[0].style.display = "block";
         document.querySelectorAll(".menu .list div")[0].className = "";
         document.querySelectorAll(".menu .list div")[1].className = "active";
         document.querySelectorAll(".menu .list div")[2].className = "";
+        document.querySelectorAll(".popup")[0].style.display = "none";
+        document.querySelectorAll(".menu")[0].style.display = "none";
+        document.querySelectorAll(".navbar .list .option")[0].innerHTML = "Menu";
         if (getCookie("logged") == 1) {
-            document.querySelectorAll(".ninquiry")[0].style.display = "block";
+            document.querySelectorAll(".nquestion")[0].style.display = "block";
         }
+        document.querySelectorAll(".sections")[0].innerHTML = "";
+        setMyDataOfQ();
     }
     document.querySelectorAll(".menu .list div")[2].onclick = function () {
         document.querySelectorAll(".home")[0].style.display = "none";
-        document.querySelectorAll(".inquiry")[0].style.display = "none";
+        document.querySelectorAll(".question")[0].style.display = "none";
         document.querySelectorAll(".menu .list div")[0].className = "";
         document.querySelectorAll(".menu .list div")[1].className = "";
         document.querySelectorAll(".menu .list div")[2].className = "active";
-        document.querySelectorAll(".ninquiry")[0].style.display = "none";
+        document.querySelectorAll(".nquestion")[0].style.display = "none";
+        document.querySelectorAll(".popup")[0].style.display = "none";
+        document.querySelectorAll(".menu")[0].style.display = "none";
+        document.querySelectorAll(".navbar .list .option")[0].innerHTML = "Menu";
     }
     document.querySelectorAll(".menu .list div")[3].onclick = function () {
         account = "";
         removeCookie("email");
         removeCookie("username");
+        removeCookie("_type");
         removeCookie("logged");
+        document.querySelectorAll(".popup")[0].style.display = "none";
+        document.querySelectorAll(".menu")[0].style.display = "none";
         window.location.reload();
     }
     /* Login */
     document.querySelectorAll(".login .submit")[0].onclick = function () {
-        var url = "email=" + encodeURIComponent(document.getElementById("login-email").value) + "&password=" + encodeURIComponent(document.getElementById("login-pass").value);
+        var url = "email=" + encodeURIComponent(document.getElementById("login-email").value) + "&password=" + document.getElementById("login-pass").value;
         /**/
         loading(1);
         /**/
@@ -146,6 +159,7 @@
                         account = data;
                         setCookie("email", data["email"], 1000000000);
                         setCookie("username", data["username"], 1000000000);
+                        setCookie("_type", data["password"], 1000000000);
                         setCookie("logged", 1, 1000000000);
                         home();
                         setTimeout(() => {
@@ -181,7 +195,7 @@
     }
     /* Signup*/
     document.querySelectorAll(".signup .submit")[0].onclick = function () {
-        var url = "name=" + encodeURIComponent(document.getElementById("signup-name").value) + "&email=" + encodeURIComponent(document.getElementById("signup-email").value) + "&password=" + encodeURIComponent(document.getElementById("signup-pass").value);
+        var url = "name=" + encodeURIComponent(document.getElementById("signup-name").value) + "&email=" + encodeURIComponent(document.getElementById("signup-email").value) + "&password=" + document.getElementById("signup-pass").value;
         /**/
         loading(1);
         /**/
@@ -194,6 +208,7 @@
                         account = data;
                         setCookie("email", data["email"], 1000000000);
                         setCookie("username", data["username"], 1000000000);
+                        setCookie("_type", data["password"], 1000000000);
                         setCookie("logged", 1, 1000000000);
                         home();
                         setTimeout(() => {
@@ -239,13 +254,17 @@
         document.querySelectorAll(".section .main .result")[0].innerHTML = "";
         document.querySelectorAll(".search .submit")[0].disabled = true;
         document.querySelectorAll(".search .input")[0].disabled = true;
-        new Ajax("https://ubeyin.000webhostapp.com/discuss/que/search.php?q=" + document.querySelectorAll(".search .input")[0].value, function (data) {
-            if (data != "FAILED" && data != "ERROR") {
+        new Ajax("https://ubeyin.000webhostapp.com/discuss/question/search.php?q=" + document.querySelectorAll(".search .input")[0].value, function (data) {
+            if (data != "FAILED" && data != "ERROR" && data != "") {
                 document.querySelectorAll(".section .main .result")[0].innerHTML = data;
                 document.querySelectorAll(".search .submit")[0].disabled = false;
                 document.querySelectorAll(".search .input")[0].disabled = false;
-            } else {
+            } else if(data != "FAILED" && data != "ERROR" && data == "") {
                 document.querySelectorAll(".section .main .result")[0].innerHTML = "<article class='col-5'><h3>No results found.</h3></article>";
+                document.querySelectorAll(".search .submit")[0].disabled = false;
+                document.querySelectorAll(".search .input")[0].disabled = false;
+            } else {
+                document.querySelectorAll(".section .main .result")[0].innerHTML = "<article class='col-5'><h3>Failed to load data, try again!</h3></article>";
                 document.querySelectorAll(".search .submit")[0].disabled = false;
                 document.querySelectorAll(".search .input")[0].disabled = false;
             }
@@ -256,16 +275,22 @@
         })
     }
 
-    /* Inquiry */
-    document.querySelectorAll(".ninquiry")[0].onclick = function () {
+    /* Question */
+    document.querySelectorAll(".nquestion")[0].onclick = function () {
         document.querySelectorAll(".popup")[0].style.display = "block";
         document.querySelectorAll(".menu")[0].style.display = "none";
-        document.querySelectorAll(".ainquiry")[0].style.display = "block";
+        document.querySelectorAll(".aquestion")[0].style.display = "block";
     }
-    document.querySelectorAll(".ainquiry button")[0].onclick = function () {
+    document.querySelectorAll(".aquestion button")[0].onclick = function () {
         addQue(document.getElementById("queTitle").value, tagg, function () {
             displayAlert("Question", "Your question has been successfully added to 'request' folder.");
-            cancelQue();
+            document.querySelectorAll(".aquestion")[0].style.display = 'none';
+            document.querySelectorAll(".popup")[0].style.display = 'none';
+            document.getElementById('queTitle').value = '';
+            document.getElementById('queTag').value = '';
+            document.getElementById('viewTag').innerHTML = '';
+            indx = 0;
+            tagg = [];
         }, function (data) {
             displayAlert("Question", "Failed! " + data);
         });
@@ -276,22 +301,24 @@
                     tags += "<span>" + tag[index] + "</span>  ";
                 }
 
-                new Ajax("https://ubeyin.000webhostapp.com/discuss/que/insert.php?title=" + title + "&tags=" + tags + "&email=" + getCookie("email") + "&username=" + getCookie("username") + "&date=" + new Date().toLocaleString(), function (data) {
+                new Ajax("https://ubeyin.000webhostapp.com/discuss/question/insert.php?title=" + title + "&tags=" + tags + "&email=" + getCookie("email") + "&username=" + getCookie("username") + "&type=" + getCookie("_type"), function (data) {
                     if (data == "SUCCESS" && success) {
                         return success();
                     }
                     else if (data == "ERROR" || data == "FAILED" && error) {
                         return error(data);
+                    } else if (data == "AUTH_ERROR") {
+                        displayAlert("Authentication error", "Please logout, and re-login now!");
                     } else {
                         return error(data);
                     }
                 }, function () {
-                    displayAlert("Please check your internet connection!");
+                    displayAlert("Connection error", "Please check your internet connection!");
                 });
             }
         }
     }
-    document.querySelectorAll(".ainquiry .tag")[0].onsubmit = function () {
+    document.querySelectorAll(".aquestion .tag")[0].onsubmit = function () {
         if (indx <= 2 && document.getElementById("queTag").value.trim() != "") {
             indx++;
             document.getElementById("viewTag").innerHTML += "<span>" + document.getElementById("queTag").value + "</span>  ";
@@ -300,14 +327,47 @@
         }
         return false;
     }
-    document.querySelectorAll(".ainquiry button")[1].onclick = function cancelQue() {
-        document.querySelectorAll(".ainquiry")[0].style.display = 'none';
+    document.querySelectorAll(".aquestion button")[1].onclick = function cancelQue() {
+        document.querySelectorAll(".aquestion")[0].style.display = 'none';
         document.querySelectorAll(".popup")[0].style.display = 'none';
         document.getElementById('queTitle').value = '';
         document.getElementById('queTag').value = '';
         document.getElementById('viewTag').innerHTML = '';
         indx = 0;
         tagg = [];
+    }
+    function setMyDataOfQ() {
+        new Ajax("https://ubeyin.000webhostapp.com/discuss/question/my.php?email=" + getCookie("email") + "&type=" + getCookie("_type"), function (data) {
+            if (data != "FAILED" && data != "ERROR" && data != "") {
+                document.querySelectorAll(".sections")[0].innerHTML = data;
+            } else if(data != "FAILED" && data != "ERROR" && data == "") {
+                document.querySelectorAll(".sections")[0].innerHTML = "<article class='col-5'><h3 style='padding: 15px 8px;padding-top:22px'>You have no question.</h3></article>";
+            } else if(data == "AUTH_ERROR"){
+                document.querySelectorAll(".sections")[0].innerHTML = "<article class='col-5'><h3>Authentication error! Please logout, and re-login now.</h3></article>";
+            } else {
+                document.querySelectorAll(".sections")[0].innerHTML = "<article class='col-5'><h3>Failed to load data, try again!</h3></article>";
+            }
+        }, function () {
+            document.querySelectorAll(".sections")[0].innerHTML = "<article class='col-5'><h3>Please check your internet connection!</h3></article>";
+        });
+    }
+    function delQuestion(qid) {
+        var confirms = confirm("Do you want to really delete your question? #"+qid);
+        if (confirms == true) {
+            new Ajax("https://ubeyin.000webhostapp.com/discuss/question/delete.php?id="+qid+"&email=" + getCookie("email") + "&type=" + getCookie("_type"), function (data) { 
+                if(data == "SUCCESS"){
+                displayAlert("#"+qid+" Deleted!","Your selected question have been successfully deleted.");
+                } else if(data == "AUTH_ERROR"){
+                    displayAlert("Authentication error!","Please logout, and re-login now.");
+                } else {
+                    displayAlert("#"+qid+" Delete error!","Failed to delete, please try again.");
+                }
+            }, function () {
+                displayAlert("#"+qid+" Delete error!","Please check your internet connection.");
+            })
+        } else {
+            
+        }
     }
 
     /* More */
@@ -333,12 +393,11 @@
         }, 9000);
     }
 
-
     /* PHP Functions */
     /*--Login*/
     /*--Signup*/
     /*--Search*/
-    /*--Inquiry*/
+    /*--Question*/
 
     /* Ajax Functions */
     function Ajax(urls, success, error) {
@@ -372,6 +431,7 @@
             }
         }
         xhr.send(0);
+        console.log(xhr)
     }
 
     /* Cookie Functions */
@@ -402,5 +462,3 @@
         let expires = "expires=" + d.toUTCString();
         document.cookie = cname + "=;" + expires + ";path=/";
     }
-
-})(window ? window : this);
